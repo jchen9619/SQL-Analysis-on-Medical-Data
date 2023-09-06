@@ -70,6 +70,7 @@ ORDER BY
 	"Number of Diagnosis" DESC
 LIMIT
 	5;
+````
 
 **Results:**
 PATIENT   |Number of Diagnosis|
