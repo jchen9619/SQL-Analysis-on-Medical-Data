@@ -26,7 +26,7 @@ Total Cases|
 ````sql
 SELECT 
 	description,
-  count(description) as "Number of Cases" 
+  	count(description) as "Number of Cases" 
 FROM 
 	med.conditions
 WHERE 
@@ -36,7 +36,7 @@ GROUP BY
 ORDER BY 
 	"Number of Cases" DESC
 LIMIT
-  10;
+  	10;
 ````
 
 **Results:**
@@ -48,37 +48,37 @@ Acute viral pharyngitis (disorder)  |  169|
 Acute bronchitis (disorder) |    145|
 Normal pregnancy  | 77|
 Otitis media | 49|
+Sprain of ankle | 36|
+Streptococcal sore throat (disorder)|33|
+Concussion with no loss of consciousness| 18|
+Laceration of forearm | 14|
+Facial laceration | 14|
 
-**3.** Which are the 3 most common crimes reported and what percentage amount are they from the total amount of reported crimes?
+**3.** List the top 5 patients with the most amount of diagnosis after 2010.
 
 ```sql
-WITH get_top_crime AS (
-	SELECT 
-		initcap(crime_type) AS crime_type,
-		count(*) AS n_crimes
-	FROM 
-		chicago.crimes
-	GROUP BY 
-		crime_type
-	ORDER BY 
-		n_crimes DESC
-)
-SELECT
-	crime_type,
-	n_crimes,
-	round(100 * n_crimes::NUMERIC / sum(n_crimes) OVER (), 2) AS total_percentage
-FROM
-	get_top_crime
-LIMIT 3;
-```
+SELECT 
+	patient,
+	count(description) AS "Number of Diagnosis"
+FROM 
+	med.conditions
+WHERE
+	start>='2010-01-01'
+GROUP BY
+	patient
+ORDER BY 
+	"Number of Diagnosis" DESC
+LIMIT
+	5;
 
 **Results:**
-
-crime_type     |n_crimes|total_percentage|
----------------|--------|----------------|
-Theft          |  264701|           22.25|
-Battery        |  222214|           18.68|
-Criminal Damage|  131716|           11.07|
+PATIENT   |Number of Diagnosis|
+---------------|--------|
+d9e0ea5d-ebab-45a4-8bf2-bd4298da9f7d          | 14|           
+68f094bb-dd13-4a96-844a-9c509effd8de    |  12|           
+a09bba57-86de-46a7-9a24-1147547921f6|  12|           
+0bcc9845-c873-492e-96e1-9771ebcbc2df|10|
+2297617f-c6ce-4f63-9445-72527391a02d|10|
 
 **4.** What are the top ten communities that had the MOST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
