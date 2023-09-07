@@ -84,40 +84,37 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 **4.** What are the top ten communities that had the MOST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
 ````sql
-SELECT 
-	initcap(t2.community_name) AS community,
-	t2.population,
-	t2.density,
-	count(*) AS reported_crimes
-FROM 
-	chicago.crimes AS t1
-JOIN
-	chicago.community AS t2
-ON 
-	t2.community_id = t1.community_id
-GROUP BY 
-	t2.community_name,
-	t2.population,
-	t2.density
-ORDER BY 
-	reported_crimes DESC
-LIMIT 10;
+SELECT
+	EXTRACT(YEAR FROM immunizations.DATE) AS vaccination_year,
+	(COUNT(DISTINCT CASE WHEN immunizations.DESCRIPTION = "Influenza seasonal injectable preservative free" THEN PATIENT else . END) * 	100.0) / COUNT(DISTINCT PATIENT) AS "% of Vaccinated Patients"
+FROM
+	conditions
+INNER JOIN
+	immunizations
+ON
+	conditions.PATIENT = immunizations.PATIENT
+WHERE
+	Diagnosis = Viral sinusitis (disorder)
+GROUP BY
+	vaccination_year
+ORDER BY
+	vaccination_year;
 ````
 
 **Results:**
 
-community      |population|density |reported_crimes|
----------------|----------|--------|---------------|
-Austin         |     96557|13504.48|          66662|
-Near North Side|    105481|38496.72|          51977|
-Near West Side |     67881|11929.88|          41773|
-South Shore    |     53971|18420.14|          40984|
-Loop           |     42298|25635.15|          40245|
-North Lawndale |     34794|10839.25|          39115|
-Humboldt Park  |     54165|15045.83|          34992|
-Auburn Gresham |     44878|11903.98|          33680|
-West Town      |     87781|19166.16|          32812|
-Roseland       |     38816| 8053.11|          30836|
+Year      |% of Vaccinated Patients|
+---------------|----------|
+2007           |     |
+2008           |    |
+2009 	       |    
+2010           |     
+2011           |     
+2012           |     
+2013   	       |     
+2014 	       |     
+2015           |    
+2016           |
 
 **5.** What are the top ten communities that had the LEAST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
