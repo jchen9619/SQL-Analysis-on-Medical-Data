@@ -179,7 +179,7 @@ Acute Bronchitis    |    145| Acetaminophen 160 MG| 132 |91.0%|
 Primary small cell malignant neoplasm of lung TNM stage 4 (disorder)    |     58| Cisplatin 50 MG Injection | 32 | 55.2%|
 Viral sinusitis (disorder)  |     49| Amoxicillin 250 MG / Clavulanate 125 MG (Augmentin) | 47 |96.2%|
 Coronary Heart Disease|   32| Nitroglycerin 0.4 MG/ACTUAT [Nitrolingual] |7 | 21.9%|
-Streptococcal sore throat (disorder) |     30|   |  Penicillin V Potassium 250 MG|         30|100%|
+Streptococcal sore throat (disorder) |     30| Penicillin V Potassium 250 MG|         30|100%|
 
 
 **6.** What month had the most crimes reported and what was the average and median temperature high in the last five years?
