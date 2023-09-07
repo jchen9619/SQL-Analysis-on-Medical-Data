@@ -115,6 +115,7 @@ Year      |% of Vaccinated Patients|
 2014 	       |     
 2015           |    
 2016           |
+2017	       |
 
 **5.** What are the top ten communities that had the LEAST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
