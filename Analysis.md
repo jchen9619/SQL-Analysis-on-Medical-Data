@@ -81,14 +81,13 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 0bcc9845-c873-492e-96e1-9771ebcbc2df|10|
 2297617f-c6ce-4f63-9445-72527391a02d|10|
 
-**4.** What are the top ten communities that had the MOST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
-
+**4.** For each year, what percentage of patients diagnosed with Viral sinusitis (disorder) are vaccinated with the influenza vaccine? 
 ````sql
 SELECT
-    SUBSTRING(immunizations.DATE, 1, 4) AS vaccination_year,
-    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) as Sinusitis_Patients,
-    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) as Vaccinated_Sinusitis_Patients,
-    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) / COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) AS "% Vaccinated"
+	SUBSTRING(immunizations.DATE, 1, 4) AS vaccination_year,
+	COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) as Sinusitis_Patients,
+	COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) as Vaccinated_Sinusitis_Patients,
+	COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) / COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) AS "% Vaccinated"
 FROM
 	conditions
 INNER JOIN
@@ -119,43 +118,70 @@ Year      |Sinusitis_Patients    |Vaccinated_Sinusitis_Patients    |% Vaccinated
 2016           |     1380 |1238 | 89.7%
 2017	       |     1102 |1006 | 91.3%
 
-**5.** What are the top ten communities that had the LEAST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
-
+**5.** What are the top 5 conditions that occured the most prescriptions after 2015? What are the most commonly prescribed drugs for each?
 ````sql
-SELECT 
-	initcap(t2.community_name) AS community,
-	t2.population,
-	t2.density,
-	count(*) AS reported_crimes
-FROM 
-	chicago.crimes AS t1
+WITH TopDiagnoses AS (
+    SELECT
+        Diagnosis,
+        COUNT(*) AS "Total Number of Prescriptions"
+    FROM
+        medications
+    WHERE
+        start >= '2015-01-01'
+        AND Diagnosis <> ''
+    GROUP BY
+        Diagnosis
+    ORDER BY
+        "Total Number of Prescriptions" DESC
+    LIMIT 5
+),
+TotalPrescriptions AS (
+    SELECT
+        Diagnosis,
+        COUNT(*) AS "Total Prescriptions"
+    FROM
+        medications
+    WHERE
+        start >= '2015-01-01'
+        AND Diagnosis <> ''
+    GROUP BY
+        Diagnosis
+)
+SELECT
+    T.Diagnosis,
+    M.MEDICATIONDESCRIPTION AS "Most Common Medication",
+    COUNT(*) AS "Prescription Count",
+    (COUNT(*) * 100.0 / TP."Total Prescriptions") AS "% of Total"
+FROM
+    medications M
 JOIN
-	chicago.community AS t2
-ON 
-	t2.community_id = t1.community_id
-GROUP BY 
-	t2.community_name,
-	t2.population,
-	t2.density
-ORDER BY 
-	reported_crimes
-LIMIT 10;
+    TopDiagnoses T
+ON
+    M.Diagnosis = T.Diagnosis
+JOIN
+    TotalPrescriptions TP
+ON
+    M.Diagnosis = TP.Diagnosis
+WHERE
+    M.start >= '2015-01-01'
+    AND M.Diagnosis <> ''
+GROUP BY
+    T.Diagnosis, M.MEDICATIONDESCRIPTION, TP."Total Prescriptions"
+ORDER BY
+    T."Total Number of Prescriptions" DESC, "Prescription Count" DESC;
+
 ````
 
 **Results:**
 
-community      |population|density |reported_crimes|
----------------|----------|--------|---------------|
-Edison Park    |     11525|10199.12|           1336|
-Burnside       |      2527| 4142.62|           1787|
-Forest Glen    |     19596| 6123.75|           2601|
-Mount Greenwood|     18628|  6873.8|           2609|
-Hegewisch      |     10027| 1913.55|           2861|
-Montclare      |     14401|14546.46|           2905|
-Oakland        |      6799|11722.41|           3289|
-Fuller Park    |      2567| 3615.49|           3616|
-Archer Heights |     14196| 7062.69|           4011|
-Mckinley Park  |     15923|11292.91|           4081|
+Diagnosis     |Total Number of Prescriptions| Most Common Medication | Prescription Count| % of Toal
+---------------|----------|--|--|
+Acute Bronchitis    |    145| Acetaminophen 160 MG| 132 |91.0%|
+Primary small cell malignant neoplasm of lung TNM stage 4 (disorder)    |     58| Cisplatin 50 MG Injection | 32 | 55.2%|
+Viral sinusitis (disorder)  |     49| Amoxicillin 250 MG / Clavulanate 125 MG (Augmentin) | 47 |96.2%|
+Coronary Heart Disease|   32| Nitroglycerin 0.4 MG/ACTUAT [Nitrolingual] |7 | 21.9%|
+Streptococcal sore throat (disorder) |     30|   |  Penicillin V Potassium 250 MG|         30|100%|
+
 
 **6.** What month had the most crimes reported and what was the average and median temperature high in the last five years?
 
