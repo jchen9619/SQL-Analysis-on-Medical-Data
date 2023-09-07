@@ -85,37 +85,39 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 
 ````sql
 SELECT
-	EXTRACT(YEAR FROM immunizations.DATE) AS vaccination_year,
-	(COUNT(DISTINCT CASE WHEN immunizations.DESCRIPTION = "Influenza seasonal injectable preservative free" THEN PATIENT else . END) * 100.0) / COUNT(DISTINCT PATIENT) AS "% of Vaccinated Patients"
+    SUBSTRING(immunizations.DATE, 1, 4) AS vaccination_year,
+    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) as Sinusitis_Patients,
+    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) as Vaccinated_Sinusitis_Patients,
+    COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" then 1 else 0 end) / COUNT(case when conditions.DESCRIPTION LIKE "%sinusitis%" AND immunizations.DESCRIPTION LIKE "%Influenza%" then 1 else 0 end) AS "% Vaccinated"
 FROM
 	conditions
 INNER JOIN
 	immunizations
 ON
 	conditions.PATIENT = immunizations.PATIENT
-WHERE
-	Diagnosis = Viral sinusitis (disorder)
+Where 
+	conditions.DESCRIPTION LIKE "%sinusitis%"
 GROUP BY
 	vaccination_year
 ORDER BY
-	vaccination_year;
+	vaccination_year
 ````
 
 **Results:**
 
-Year      |% of Vaccinated Patients|
----------------|----------|
-2007           |     63%     |
-2008           |     68%    |
-2009 	       |     72% |
-2010           |     56% |
-2011           |     58% |
-2012           |     65% |
-2013   	       |     70% |
-2014 	       |     73% |
-2015           |     77% |
-2016           |     75% |
-2017	       |     80% |
+Year      |Sinusitis_Patients    |Vaccinated_Sinusitis_Patients    |% Vaccinated|
+---------------|----------|---|--|
+2007           |     249  |238  | 95.6%
+2008           |     1764 |1612 | 91.4% 
+2009 	       |     1737 |1688 | 97.2%
+2010           |     1795 |1703 | 94.9%
+2011           |     1563 |1456 | 93.2%
+2012           |     1568 |1486 | 94.77%
+2013   	       |     1514 |1495 | 98.7%
+2014 	       |     1511 |1477 | 97.7%
+2015           |     1359 |1289 | 94.8%
+2016           |     1380 |1238 | 89.7%
+2017	       |     1102 |1006 | 91.3%
 
 **5.** What are the top ten communities that had the LEAST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
