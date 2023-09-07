@@ -122,8 +122,8 @@ Year      |Sinusitis_Patients    |Vaccinated_Sinusitis_Patients    |% Vaccinated
 ````sql
 WITH TopDiagnoses AS (
     SELECT
-        Diagnosis,
-        COUNT(*) AS "Total Number of Prescriptions"
+	Diagnosis,
+	COUNT(*) AS "Total Number of Prescriptions"
     FROM
         medications
     WHERE
@@ -148,33 +148,32 @@ TotalPrescriptions AS (
         Diagnosis
 )
 SELECT
-    T.Diagnosis,
-    M.MEDICATIONDESCRIPTION AS "Most Common Medication",
-    COUNT(*) AS "Prescription Count",
-    (COUNT(*) * 100.0 / TP."Total Prescriptions") AS "% of Total"
+	T.Diagnosis,
+	M.MEDICATIONDESCRIPTION AS "Most Common Medication",
+	COUNT(*) AS "Prescription Count",
+	(COUNT(*) * 100.0 / TP."Total Prescriptions") AS "% of Total"
 FROM
-    medications M
+    	medications M
 JOIN
-    TopDiagnoses T
+    	TopDiagnoses T
 ON
-    M.Diagnosis = T.Diagnosis
+    	M.Diagnosis = T.Diagnosis
 JOIN
-    TotalPrescriptions TP
+    	TotalPrescriptions TP
 ON
-    M.Diagnosis = TP.Diagnosis
+    	M.Diagnosis = TP.Diagnosis
 WHERE
-    M.start >= '2015-01-01'
-    AND M.Diagnosis <> ''
+    	M.start >= '2015-01-01'
+    	AND M.Diagnosis <> ''
 GROUP BY
-    T.Diagnosis, M.MEDICATIONDESCRIPTION, TP."Total Prescriptions"
+    	T.Diagnosis, M.MEDICATIONDESCRIPTION, TP."Total Prescriptions"
 ORDER BY
-    T."Total Number of Prescriptions" DESC, "Prescription Count" DESC;
-
+    	T."Total Number of Prescriptions" DESC, "Prescription Count" DESC;
 ````
 
 **Results:**
 
-Diagnosis     |Total Number of Prescriptions| Most Common Medication | Prescription Count| % of Toal
+Diagnosis     |Total Number of Prescriptions| Most Common Medication | Prescription Count| % of Toal| 
 ---------------|----------|--|--|
 Acute Bronchitis    |    145| Acetaminophen 160 MG| 132 |91.0%|
 Primary small cell malignant neoplasm of lung TNM stage 4 (disorder)    |     58| Cisplatin 50 MG Injection | 32 | 55.2%|
