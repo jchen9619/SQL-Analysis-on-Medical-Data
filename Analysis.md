@@ -173,8 +173,8 @@ ORDER BY
 
 **Results:**
 
-Diagnosis     |Total Number of Prescriptions| Most Common Medication | Prescription Count| % of Toal| 
----------------|----------|--|--|
+Diagnosis     |Total Number of Prescriptions| Most Common Medication | Prescription Count| % of Total| 
+---------------|----------|--|--|--|
 Acute Bronchitis    |    145| Acetaminophen 160 MG| 132 |91.0%|
 Primary small cell malignant neoplasm of lung TNM stage 4 (disorder)    |     58| Cisplatin 50 MG Injection | 32 | 55.2%|
 Viral sinusitis (disorder)  |     49| Amoxicillin 250 MG / Clavulanate 125 MG (Augmentin) | 47 |96.2%|
