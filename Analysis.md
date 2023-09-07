@@ -86,7 +86,7 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 ````sql
 SELECT
 	EXTRACT(YEAR FROM immunizations.DATE) AS vaccination_year,
-	(COUNT(DISTINCT CASE WHEN immunizations.DESCRIPTION = "Influenza seasonal injectable preservative free" THEN PATIENT else . END) * 	100.0) / COUNT(DISTINCT PATIENT) AS "% of Vaccinated Patients"
+	(COUNT(DISTINCT CASE WHEN immunizations.DESCRIPTION = "Influenza seasonal injectable preservative free" THEN PATIENT else . END) * 100.0) / COUNT(DISTINCT PATIENT) AS "% of Vaccinated Patients"
 FROM
 	conditions
 INNER JOIN
@@ -105,17 +105,17 @@ ORDER BY
 
 Year      |% of Vaccinated Patients|
 ---------------|----------|
-2007           |     |
-2008           |    |
-2009 	       |    
-2010           |     
-2011           |     
-2012           |     
-2013   	       |     
-2014 	       |     
-2015           |    
-2016           |
-2017	       |
+2007           |     63%     |
+2008           |     68%    |
+2009 	       |     72% |
+2010           |     56% |
+2011           |     58% |
+2012           |     65% |
+2013   	       |     70% |
+2014 	       |     73% |
+2015           |     77% |
+2016           |     75% |
+2017	       |     80% |
 
 **5.** What are the top ten communities that had the LEAST amount of crimes reported?  Include the current population, density and order by the number of reported crimes.
 
