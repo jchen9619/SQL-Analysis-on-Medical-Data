@@ -54,7 +54,40 @@ Concussion with no loss of consciousness| 18|
 Laceration of forearm | 14|
 Facial laceration | 14|
 
-**3.** List the top 5 patients with the most amount of diagnosis after 2010.
+**3.** List number of cases and year-on-year growth of sinusitis cases by year of the most recent 10 years.
+````sql
+SELECT 
+	SUBSTRING(START, 1, 4) AS year,
+  	count(DESCRIPTION) as "Number of Sinusitis",
+    	FORMAT((count(DESCRIPTION)/LAG(count(DESCRIPTION)) OVER (ORDER BY SUBSTRING(START, 1, 4))-1), 'P1')  AS "YOY % Change"
+FROM 
+	conditions
+WHERE 
+	description like '%sinusitis%'
+GROUP BY 
+	year
+ORDER BY 
+	year ASC
+LIMIT
+  	10;
+````
+
+Year|Number of Somisitis| YoY % CHANGE|
+----------|--------|--|
+2008|  112|   NULL 
+2009 |  167|  49.1%|
+2010 |    124| -25.7% |
+2011  | 110| -11.3%|
+2012| 127| 15.5%|
+2013| 128| 0.7%|
+2014|99|-22.7%|
+2015| 133|34.3%|
+2016 | 117|-12.0%|
+2017 | 83|-29.1%|
+
+
+
+**4.** List the top 5 patients with the most amount of diagnosis after 2010.
 
 ```sql
 SELECT 
