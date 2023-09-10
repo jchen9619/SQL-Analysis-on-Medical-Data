@@ -302,45 +302,70 @@ Year   |Number of C-sections|Number of Normal Pregnancies|% of C-sections|
 2016 |     3|         63|            4.8%|
 2017 |     5|         52|            9.6%|
 
-**8.** List the most violent year and the number of arrests with percentage.  Order by the number of crimes in decending order.  Determine the most violent year by the number of reported Homicides, Assaults and Battery for that year.
+**9.** For the last 10 years, what was the distribution of race among prediabetes patients? 
 
 ````sql
-WITH get_arrest_percentage AS (
-	SELECT
-		EXTRACT('year' FROM t1.reported_crime_date) AS most_violent_year,
-		count(*) AS reported_violent_crimes,
-		sum(
-			CASE
-				WHEN arrest = TRUE THEN 1
-				ELSE 0
-			END 
-		) AS number_of_arrests
-	FROM
-		chicago.crimes AS t1
-	WHERE 
-		crime_type IN ('homicide', 'battery', 'assault')
-	GROUP BY
-		most_violent_year
-	ORDER BY
-		reported_violent_crimes DESC
+SELECT * FROM (
+    SELECT
+        EXTRACT(YEAR FROM c.start) AS YEAR,
+        CAST(
+            (
+                round(COUNT(DISTINCT CASE WHEN p.race = 'black' THEN c.patient END)
+                * 100.0
+                / COUNT(DISTINCT c.patient),1)
+            ) AS VARCHAR(20)
+        )
+        || '%' AS "% Black",
+        CAST(
+            (
+                round(COUNT(DISTINCT CASE WHEN p.race = 'white' THEN c.patient END)
+                * 100.0
+                / COUNT(DISTINCT c.patient),1)
+            ) AS VARCHAR(20)
+        )
+        || '%' AS "% White",
+        CAST(
+            (
+                round(COUNT(DISTINCT CASE WHEN p.race = 'hispanic' THEN c.patient END)
+                * 100.0
+                / COUNT(DISTINCT c.patient),1)
+            ) AS VARCHAR(20)
+        )
+        || '%' AS "% Hispanic",
+        CAST(
+            (
+                round(COUNT(DISTINCT CASE WHEN p.race = 'asian' THEN c.patient END)
+                * 100.0
+                / COUNT(DISTINCT c.patient),1)
+            ) AS VARCHAR(20)
+        )
+        || '%' AS "% Asian",
+
+
+    FROM patients AS p INNER JOIN conditions AS c
+        ON p.patient = c.patient
+    WHERE c.description = 'Prediabetes'
+    GROUP BY YEAR
+    ORDER BY YEAR DESC
+    LIMIT 10
 )
-SELECT
-	most_violent_year,
-	reported_violent_crimes,
-	number_of_arrests || ' (' || round(100 * number_of_arrests::NUMERIC / reported_violent_crimes, 2) || '%)' AS number_of_arrests
-FROM
-	get_arrest_percentage;
+ORDER BY YEAR ASC
+
 ````
 
 **Results:**
-
-most_violent_year|reported_violent_crimes|number_of_arrests|
------------------|-----------------------|-----------------|
-2018|                  70835|13907 (19.63%)   |
-2019|                  70645|14334 (20.29%)   |
-2022|                  62412|8165 (13.08%)    |
-2021|                  61611|7855 (12.75%)    |
-2020|                  60562|9577 (15.81%)    |
+YEAR|% Black|% White|% Hispanic|% Asian|
+----|--------|-------|---|---|
+2008|0.0%|78.6%|14.3%|7.1%|
+2009|0.0%|75.0%|25.0|0.0%|
+2010|0.0%|50%|37.5%|12.5%|
+2011|10.0%|70.0%|20.0%|0.0%|
+2012|0.0%|66.7%|0.0%|33.3%|
+2013|20.0%|80.0%|0.0%|0.0%|
+2014|14.3%|66.7%|2.3%|16.7%|
+2015|16.7%|66.7%|0.0%|16.7%|
+2016| 0.0%|50.0%|0.0%|50.0%|
+2017|50.0%|50.0%|0.0%|0.0%|
 
 **9.** List the day of the week, year, average precipitation, average high temperature and the highest number of reported crimes for days with and without precipitation.
 
