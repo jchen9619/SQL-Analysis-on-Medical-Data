@@ -269,44 +269,38 @@ year    |Max BMI|Min BMI|Avg BMI|% BMI > 25 (Overweight)|
 2017 |  38.33|       24.95|   32.11| 99.5%|
 
 
-**7.** What month had the most homicides reported and what was the average and median temperature high in the last five years?
+**8.** List the number and percentage of normal pregnacies that ended in a Cesarean section for the last 10 years.
 
 ````sql
 SELECT
-	to_char(t1.reported_crime_date, 'Month') AS month,
-	COUNT(*) AS n_crimes,
-	round(avg(t2.temp_high), 1) avg_high_temp,
-	PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY t2.temp_high) AS median_high_temp
+	year(date) as YEAR,
+	count(CASE WHEN "DESCRIPTION" = 'Cesarean section' THEN 1 END) AS "Number of C-sections",
+	count(CASE WHEN "REASONDESCRIPTION" LIKE '%Normal pregnancy' THEN 1 END) AS "Number of Normal Pregnancies",
+    	format("Number of C-sections"/"Number of Normal Pregnancies",'P0') "% of C-sections"
 FROM
-	chicago.crimes AS t1
-JOIN 
-	chicago.weather AS t2
-ON 
-	t1.reported_crime_date = t2.weather_date
-WHERE
-	t1.crime_type = 'homicide'
+ 	procedures
 GROUP BY
-	month
+	YEAR
 ORDER BY
-	n_crimes DESC;
+	YEAR asc
+LIMIT
+	10;
 ````
 
 **Results:**
 
-month    |n_crimes|avg_high_temp|median_high_temp|
+Year   |Number of C-sections|Number of Normal Pregnancies|% of C-sections|
 ---------|--------|-------------|----------------|
-July     |     398|         85.3|            86.0|
-June     |     360|         82.5|            82.0|
-September|     356|         78.1|            79.0|
-August   |     330|         84.6|            85.0|
-May      |     326|         72.7|            73.0|
-October  |     296|         63.8|            64.0|
-April    |     275|         59.3|            58.0|
-November |     263|         49.8|            48.0|
-December |     249|         41.4|            42.0|
-January  |     212|         32.9|            33.0|
-February |     190|         35.0|            37.0|
-March    |     185|         49.3|            48.0|
+2008     |  4|         76|           5.3%|
+2009|     1|         59|            1.7%|
+2010   |     5|         70|            7.1%|
+2011     |    2 |         53|            3.8%|
+2012 |     5|        83|            6.0%|
+2013    |     1|         84|            1.2%|
+2014 |     5|         65|            7.7%|
+2015 |     5|         66|            7.6%|
+2016 |     3|         63|            4.8%|
+2017 |     5|         52|            9.6%|
 
 **8.** List the most violent year and the number of arrests with percentage.  Order by the number of crimes in decending order.  Determine the most violent year by the number of reported Homicides, Assaults and Battery for that year.
 
