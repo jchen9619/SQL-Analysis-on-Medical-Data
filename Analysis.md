@@ -1,11 +1,11 @@
-# Questions and Answers
+# Medical Data Analysis
+## Questions and Answers
 
 **Author**: Chen Chen <br />
 **Email**: cc4865@nyu.edu <br />
 **Website**: chencapp.github.io <br />
 **LinkedIn**: www.linkedin.com/in/cchengwnyu <br />
 
-## I. Medical Data Analysis
 **1.**  List the number of total cases admitted between 2015 to 2017 
 
 ````sql
@@ -258,13 +258,13 @@ ORDER BY
 
 **Results:**
 
-year    |Max BMI|Min BMI|Avg BMI|% BMI > 25 (Overweight)
+year    |Max BMI|Min BMI|Avg BMI|% BMI > 25 (Overweight)|
 ---------|--------|-------------|----------------|
 2011    |  52.28|       21.94|      34.16| 98.2%|
 2012  | 40.13|        25.66|           32.77| 100%|
 2013  | 39.2|         19.53|            31.21|80.0%|
-2014     |  34.06|     14.12|         25.95| 71.43%
-2015| 45.13|     20.32|        31.21| 83.33%
+2014     |  34.06|     14.12|         25.95| 71.43%|
+2015| 45.13|     20.32|        31.21| 83.33%|
 2016     | 38.57|       23.2|    30.38|   95.3%|
 2017 |  38.33|       24.95|   32.11| 99.5%|
 
