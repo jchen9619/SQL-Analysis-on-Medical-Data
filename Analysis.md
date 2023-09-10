@@ -1,11 +1,11 @@
-# Medical Record Analysis
-## Questions and Answers
+# Questions and Answers
 
 **Author**: Chen Chen <br />
 **Email**: cc4865@nyu.edu <br />
 **Website**: chencapp.github.io <br />
 **LinkedIn**: www.linkedin.com/in/cchengwnyu <br />
 
+## I. Medical Data Analysis
 **1.**  List the number of total cases admitted between 2015 to 2017 
 
 ````sql
@@ -114,7 +114,7 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 0bcc9845-c873-492e-96e1-9771ebcbc2df|10|
 2297617f-c6ce-4f63-9445-72527391a02d|10|
 
-**4.** For each year, what percentage of patients diagnosed with Viral sinusitis (disorder) are vaccinated with the influenza vaccine? 
+**5.** For each year, what percentage of patients diagnosed with Viral sinusitis (disorder) are vaccinated with the influenza vaccine? 
 ````sql
 SELECT
 	SUBSTRING(immunizations.DATE, 1, 4) AS vaccination_year,
@@ -151,7 +151,7 @@ Year      |Sinusitis_Patients    |Vaccinated_Sinusitis_Patients    |% Vaccinated
 2016           |     1380 |1238 | 89.7%
 2017	       |     1102 |1006 | 91.3%
 
-**5.** What are the top 5 conditions that occured the most prescriptions after 2015? What are the most commonly prescribed drugs for each?
+**6.** What are the top 5 conditions that occured the most prescriptions after 2015? What are the most commonly prescribed drugs for each?
 ````sql
 WITH TopDiagnoses AS (
     SELECT
@@ -214,43 +214,60 @@ Viral sinusitis (disorder)  |     49| Amoxicillin 250 MG / Clavulanate 125 MG (A
 Coronary Heart Disease|   32| Nitroglycerin 0.4 MG/ACTUAT [Nitrolingual] |7 | 21.9%|
 Streptococcal sore throat (disorder) |     30| Penicillin V Potassium 250 MG|         30|100%|
 
+**7.** What is the highest, lowest and average Body Mass Index (BMI) Of all patients diagnosed with prediabetes after 2010? What percentage of prediabetes patients have BMI above 25 (overweight)?
 
-**6.** What month had the most crimes reported and what was the average and median temperature high in the last five years?
 
 ````sql
-ELECT
-	to_char(t1.reported_crime_date, 'Month') AS month,
-	COUNT(*) AS n_crimes,
-	round(avg(t2.temp_high), 1) avg_high_temp,
-	PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY t2.temp_high) AS median_high_temp
+SELECT
+    SUBSTRING(START, 1, 4) AS year,
+    MAX(CAST("VALUE" AS DOUBLE)) AS "Max BMI",
+    MIN(CAST("VALUE" AS DOUBLE)) AS "Min BMI",
+    AVG(CAST("VALUE" AS DOUBLE)) AS "Avg BMI",
+    CONCAT(
+        CAST(
+            ROUND(
+                (
+                    COUNT(
+                        DISTINCT CASE
+                            WHEN CAST("VALUE" AS DOUBLE) > 25 THEN c.patient
+                        END
+                    )
+                    * 100.0
+                    / COUNT(DISTINCT c."PATIENT")
+                ),
+                2
+            ) AS VARCHAR
+        ),
+        ' %'
+    ) AS "% BMI > 25 (Overweight)"
 FROM
-	chicago.crimes AS t1
-JOIN 
-	chicago.weather AS t2
-ON 
-	t1.reported_crime_date = t2.weather_date
+	conditions AS c
+FULL OUTER JOIN
+	observations AS o
+ON
+	c.patient = o.patient
+WHERE
+	o.description = 'Body Mass Index'
+	AND c.description LIKE '%prediabetes'
+	AND year>'2010'
 GROUP BY
-	month
+	year
 ORDER BY
-	n_crimes DESC;
+	year 
 ````
 
 **Results:**
 
-month    |n_crimes|avg_high_temp|median_high_temp|
+year    |Max BMI|Min BMI|Avg BMI|% BMI > 25 (Overweight)
 ---------|--------|-------------|----------------|
-July     |  111328|         85.2|            86.0|
-August   |  110659|         84.3|            85.0|
-October  |  105563|         62.5|            62.0|
-June     |  105163|         81.5|            81.0|
-September|  105075|         77.2|            78.0|
-May      |  103985|         71.8|            72.0|
-December |   96505|         40.6|            41.0|
-November |   95501|         47.6|            47.0|
-March    |   92947|         48.0|            47.0|
-January  |   92018|         32.3|            34.0|
-April    |   88707|         56.7|            55.0|
-February |   82329|         35.3|            35.0|
+2011    |  52.28|       21.94|      34.16| 98.2%|
+2012  | 40.13|        25.66|           32.77| 100%|
+2013  | 39.2|         19.53|            31.21|80.0%|
+2014     |  34.06|     14.12|         25.95| 71.43%
+2015| 45.13|     20.32|        31.21| 83.33%
+2016     | 38.57|       23.2|    30.38|   95.3%|
+2017 |  38.33|       24.95|   32.11| 99.5%|
+
 
 **7.** What month had the most homicides reported and what was the average and median temperature high in the last five years?
 
