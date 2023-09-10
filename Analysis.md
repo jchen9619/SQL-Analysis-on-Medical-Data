@@ -24,19 +24,22 @@ Total Cases|
 **2.** List the top 10 conditions with the most admitted cases after 2015.
 
 ````sql
+CREATE TABLE top_cond AS
 SELECT 
-	description,
+	description AS "Condition",
   	count(description) as "Number of Cases" 
 FROM 
 	med.conditions
 WHERE 
 	start>= '2015-01-01' 
 GROUP BY 
-	description
+	"Condition"
 ORDER BY 
 	"Number of Cases" DESC
 LIMIT
   	10;
+
+SELECT * FROM top_cond
 ````
 
 **Results:**
@@ -44,18 +47,54 @@ LIMIT
 Condition|Number of Cases|
 ----------|--------|
 Viral sinusitis (disorder)|  302|
-Acute viral pharyngitis (disorder)  |  169|
-Acute bronchitis (disorder) |    145|
-Normal pregnancy  | 77|
+Acute Viral pharyngitis (disorder)  |  169|
+Acute Bronchitis (disorder) |    145|
+Normal Pregnancy  | 77|
 Otitis media | 49|
-Sprain of ankle | 36|
-Streptococcal sore throat (disorder)|33|
+Sprain of Ankle | 36|
+Streptococcal Sore Throat (disorder)|33|
 Concussion with no loss of consciousness| 18|
 Laceration of forearm | 14|
 Facial laceration | 14|
 
-**3.** What are the top 10 conditoins with the highest prevalence rate? is this consistent with the answer for Question 2?
+**3.** What are the top 10 conditoins with the highest prevalence rate? How much overlap is there with answer to Question 2? <br>
 
+**Conditions with Highest Prevalence Rate:**
+````sql
+CREATE TABLE top_prev AS
+SELECT
+	item as "Condition", "PREVALENCE RATE" AS "Prevalence rate"
+FROM
+	all_prevalences
+ORDER BY
+	"PREVALENCE RATE" DESC
+LIMIT 10;
+
+SELECT * FROM top_prev
+````
+Condition|Prevalence rate|
+----------|--------|
+Viral sinusitis (disorder)|  0.868|
+Acute Viral pharyngitis (Disorder)  |  0.772|
+Acute Bronchitis (Disorder) |    0.749|
+Otitis media | 0.699|
+Streptococcal Sore Throat (disorder)|0.487|
+Sprain of Ankle| 0.367|
+Normal Pregnancy| 0.34|
+Hypertension | 0.238|
+Prediabetes|0.232|
+
+**Overlap with Question 2**
+````sql
+SELECT COUNT(*) as "Number of Duplicates" FROM
+(SELECT Condition FROM top_cond
+ INTERSECT 
+ SELECT Condition FROM top_prev;) Dupes
+````
+
+**Number of Duplicates**|
+-----|
+7|
 
 **4.** List number of cases and year-on-year growth of sinusitis cases by year of the most recent 10 years.
 ````sql
