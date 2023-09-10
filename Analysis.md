@@ -54,7 +54,10 @@ Concussion with no loss of consciousness| 18|
 Laceration of forearm | 14|
 Facial laceration | 14|
 
-**3.** List number of cases and year-on-year growth of sinusitis cases by year of the most recent 10 years.
+**3.** What are the top 10 conditoins with the highest prevalence rate? is this consistent with the answer for Question 2?
+
+
+**4.** List number of cases and year-on-year growth of sinusitis cases by year of the most recent 10 years.
 ````sql
 SELECT 
 	SUBSTRING(START, 1, 4) AS year,
@@ -72,7 +75,7 @@ LIMIT
   	10;
 ````
 
-Year|Number of Somisitis| YoY % CHANGE|
+Year|Number of Sinusitis| YoY % CHANGE|
 ----------|--------|--|
 2008|  112|   NULL 
 2009 |  167|  49.1%|
@@ -87,7 +90,7 @@ Year|Number of Somisitis| YoY % CHANGE|
 
 
 
-**4.** List the top 5 patients with the most amount of diagnosis after 2010.
+**5.** List the top 5 patients with the most amount of diagnosis after 2010.
 
 ```sql
 SELECT 
@@ -114,7 +117,7 @@ a09bba57-86de-46a7-9a24-1147547921f6|  12|
 0bcc9845-c873-492e-96e1-9771ebcbc2df|10|
 2297617f-c6ce-4f63-9445-72527391a02d|10|
 
-**5.** For each year, what percentage of patients diagnosed with Viral sinusitis (disorder) are vaccinated with the influenza vaccine? 
+**6.** For each year, what percentage of patients diagnosed with Viral sinusitis (disorder) are vaccinated with the influenza vaccine? 
 ````sql
 SELECT
 	SUBSTRING(immunizations.DATE, 1, 4) AS vaccination_year,
@@ -151,7 +154,7 @@ Year      |Sinusitis_Patients    |Vaccinated_Sinusitis_Patients    |% Vaccinated
 2016           |     1380 |1238 | 89.7%
 2017	       |     1102 |1006 | 91.3%
 
-**6.** What are the top 5 conditions that occured the most prescriptions after 2015? What are the most commonly prescribed drugs for each?
+**7.** What are the top 5 conditions that occured the most prescriptions after 2015? What are the most commonly prescribed drugs for each?
 ````sql
 WITH TopDiagnoses AS (
     SELECT
@@ -214,7 +217,7 @@ Viral sinusitis (disorder)  |     49| Amoxicillin 250 MG / Clavulanate 125 MG (A
 Coronary Heart Disease|   32| Nitroglycerin 0.4 MG/ACTUAT [Nitrolingual] |7 | 21.9%|
 Streptococcal sore throat (disorder) |     30| Penicillin V Potassium 250 MG|         30|100%|
 
-**7.** What is the highest, lowest and average Body Mass Index (BMI) Of all patients diagnosed with prediabetes after 2010? What percentage of prediabetes patients have BMI above 25 (overweight)?
+**8.** What is the highest, lowest and average Body Mass Index (BMI) Of all patients diagnosed with prediabetes after 2010? What percentage of prediabetes patients have BMI above 25 (overweight)?
 
 
 ````sql
@@ -269,7 +272,7 @@ year    |Max BMI|Min BMI|Avg BMI|% BMI > 25 (Overweight)|
 2017 |  38.33|       24.95|   32.11| 99.5%|
 
 
-**8.** List the number and percentage of normal pregnacies that ended in a Cesarean section for the last 10 years.
+**9.** List the number and percentage of normal pregnacies that ended in a Cesarean section for the last 10 years.
 
 ````sql
 SELECT
@@ -302,7 +305,7 @@ Year   |Number of C-sections|Number of Normal Pregnancies|% of C-sections|
 2016 |     3|         63|            4.8%|
 2017 |     5|         52|            9.6%|
 
-**9.** For the last 10 years, what was the distribution of race among prediabetes patients? 
+**10.** For the last 10 years, what was the distribution of race among prediabetes patients? 
 
 ````sql
 SELECT * FROM (
