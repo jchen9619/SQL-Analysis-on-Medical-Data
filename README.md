@@ -11,8 +11,9 @@ An SQL analysis of patient demographics, medical conditions, prescriptions, biom
 * [Data Analysis Question & Answers](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/blob/main/Q%26A_Analysis.md)
 
 ## Datasets used
-Seven key [datasets](./source_data/csv/) for this case study
-- <strong>chicago_areas.csv</strong>: Chicago neighborhoods and areas.
+Seven key [datasets](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/tree/main/data/csv) for this case study
+- <strong>patients.csv</strong>: Demographic information of patients including marital staus, race, ethnicity, birthplace and address.
+- <strong>all_prevalences.csv</strong>: Prevalence rate and percentage of conditions and medications.
 - <strong>chicago_temps_18-22.csv</strong>: City Weather 2018-2022.
 - <strong>chicago_crime_2018.csv</strong>: Reported crimes in 2018.
 - <strong>chicago_crime_2019.csv</strong>: Reported crimes in 2019.
