@@ -22,4 +22,4 @@ Seven key [datasets](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/t
 - <strong>observations.csv</strong>: Health metrics such as blood pressure, height, BMI.
 
 ## Entity Relationship Diagram
-![alt text]()
+![alt text](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/blob/main/images/ERD.png)
