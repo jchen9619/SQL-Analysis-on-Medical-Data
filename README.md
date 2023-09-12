@@ -14,12 +14,11 @@ An SQL analysis of patient demographics, medical conditions, prescriptions, biom
 Seven key [datasets](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/tree/main/data/csv) for this case study
 - <strong>patients.csv</strong>: Demographic information of patients including marital staus, race, ethnicity, birthplace and address.
 - <strong>all_prevalences.csv</strong>: Prevalence rate and percentage of conditions and medications.
-- <strong>chicago_temps_18-22.csv</strong>: City Weather 2018-2022.
-- <strong>chicago_crime_2018.csv</strong>: Reported crimes in 2018.
-- <strong>chicago_crime_2019.csv</strong>: Reported crimes in 2019.
-- <strong>chicago_crime_2020.csv</strong>: Reported crimes in 2020.
-- <strong>chicago_crime_2021.csv</strong>: Reported crimes in 2021.
-- <strong>chicago_crime_2022.csv</strong>: Reported crimes in 2022.
-
+- <strong>encounters.csv</strong>: Type ad reason for each visit, organized by date.
+- <strong>conditions.csv</strong>: Medical conditions diagnosed at each encounter.
+- <strong>medications.csv</strong>: Drugs prescribed at each encounter .
+- <strong>immunizations.csv</strong>: Patient record or immunizations.
+- <strong>procedures.csv</strong>: Surgical and non-surgical procedures performed for different diagnosis.
+- <strong>observations.csv</strong>: Health metrics such as blood pressure, height, BMI.
 
 ## Entity Relationship Diagram
