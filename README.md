@@ -6,7 +6,7 @@
 **LinkedIn**: www.linkedin.com/in/cchengwnyu <br />
 
 ## Introduction
-An SQL analysis of patient demographics, medical conditions, prescriptions, biometrics and disease prevalences from 1919 to .  The data was genererated using Synthea, a synthetic patient generator that models the medical history of synthetic patients. Their mission is to output high-quality synthetic, realistic but not real, patient data and associated health records covering every aspect of healthcare. 
+An SQL analysis of patient demographics, medical conditions, prescriptions, biometrics and disease prevalences from 1919 to 2017.  The data was genererated using Synthea, a synthetic patient generator that models the medical history of synthetic patients. Their mission is to output high-quality synthetic, realistic but not real, patient data and associated health records covering every aspect of healthcare. 
 
 * [Data Analysis Question & Answers](https://github.com/jchen9619/SQL-Analysis-on-Medical-Data/blob/main/Q%26A_Analysis.md)
 
